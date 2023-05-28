@@ -1,3 +1,5 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.Scanner;
 public class SafeInput
 {
@@ -53,7 +55,7 @@ public class SafeInput
      *
      * @param pipe a Scanner opened to read from System.in
      * @param prompt prompt for the user
-     * @return an double and ensure that it is an double
+     * @return a double and ensure that it is a double
      */
     public static double getDouble(Scanner pipe, String prompt)
     {
@@ -69,7 +71,7 @@ public class SafeInput
             }
             else
             {
-                System.out.println("Please enter an int.");
+                System.out.println("Please enter an double.");
                 done = false;
                 pipe.nextLine();
             }
@@ -104,15 +106,17 @@ public class SafeInput
                 done = false;
                 pipe.nextLine();
             }
-            if (userInt >= lo && userInt <= hi)
+            if (userInt >= lo && userInt <= hi && done)
             {
                 System.out.println("You have entered a number " + userInt + " that is in range.");
             }
-            else
+            else if (!done)
             {
-                //done = false;
+
+            }
+            else {
+                done = false;
                 System.out.println("Number " + userInt + " is not in range. Please pick a number between " + lo + "-" + hi);
-                getRangedInt(pipe, "Enter a int", lo, hi);
             }
         } while (!done);
 
@@ -120,5 +124,133 @@ public class SafeInput
 
     }
 
+    /**
+     *
+     * @param pipe a Scanner opened to read from System.in
+     * @param prompt prompt for the user
+     * @param lo low range for double
+     * @param hi high range for double
+     * @return a double and ensure that it is a double
+     */
+    public static double getRangedDouble(Scanner pipe, String prompt, int lo, int hi)
+    {
+        double userDouble = 0;
+        boolean done = false;
+        do
+        {
+            System.out.println("\n" + prompt + ": ");
+            if (pipe.hasNextDouble())
+            {
+                userDouble = pipe.nextDouble();
+                done = true;
+            }
+            else
+            {
+                System.out.println("Please enter a double.");
+                done = false;
+                pipe.nextLine();
+            }
+            if (userDouble >= lo && userDouble <= hi && done)
+            {
+                System.out.println("You have entered a number " + userDouble + " that is in range.");
+            }
+            else if (!done)
+            {
 
+            }
+            else {
+                done = false;
+                System.out.println("Number " + userDouble + " is not in range. Please pick a number between " + lo + "-" + hi);
+            }
+        } while (!done);
+
+        return userDouble;
+    }
+    /**
+     *
+     * @param pipe a Scanner opened to read from System.in
+     * @param prompt prompt for the user
+     * @return a boolean true for Y, false for N
+     */
+    public static boolean getYNConfirm(Scanner pipe, String prompt)
+    {
+        boolean userYN = false;
+        String userInt = "";
+        boolean done = false;
+        do
+        {
+            System.out.println("\n" + prompt + ": ");
+            if (pipe.hasNextLine())
+            {
+                userInt = pipe.nextLine();
+            }
+            else
+            {
+                System.out.println("Please enter a string.");
+                pipe.nextLine();
+            }
+         if (userInt.equalsIgnoreCase("Y"))
+            {
+                userYN = true;
+                done = true;
+            }
+            else if (userInt.equalsIgnoreCase("N"))
+            {
+                userYN = false;
+                done = true;
+
+            }
+            else
+            {
+                System.out.println("There is an error in your input, please put a Y/N.");
+                done = false;
+            }
+
+        } while (!done);
+
+        return userYN;
+    }
+
+    /**
+     *
+     * @param pipe a Scanner opened to read from System.in
+     * @param prompt prompt for the user
+     * @param regEx string given to match
+     * @return a String equal or not equal to the regex string
+     */
+    public static String getRegExString(Scanner pipe, String prompt, String regEx)
+    {
+        String userString = "";
+        boolean done = false;
+        do
+        {
+            System.out.println("\n" + prompt + ": ");
+            if (pipe.hasNextLine())
+            {
+                userString = pipe.nextLine();
+                done = true;
+            }
+            else
+            {
+                System.out.println("Please enter a string.");
+                pipe.nextLine();
+            }
+        } while (!done);
+
+        Pattern pattern = Pattern.compile(regEx, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(userString);
+
+        boolean userEqRegEx = matcher.find();
+
+        if (userEqRegEx == true)
+        {
+            System.out.println(regEx + " pattern was found.");
+        }
+        else
+        {
+            System.out.println("The pattern " + regEx + " was not found.");
+        }
+
+        return userString;
+    }
 }

@@ -12,14 +12,17 @@ public class BirthDateTime
             {
                 int birthDay = SafeInput.getRangedInt(pipe, "Enter your birth date 1-31", 1, 31);
             }
+            break;
             case 4,6,9,11:
             {
                 int birthDay = SafeInput.getRangedInt(pipe, "Enter your birth date 1-30", 1, 30);
             }
+            break;
             case 2:
             {
-                int birthDay = SafeInput.getRangedInt(pipe, "Enter your birth date", 1, 29);
+                int birthDay = SafeInput.getRangedInt(pipe, "Enter your birth date 1-29", 1, 29);
             }
+            break;
         }
         int birthHour = SafeInput.getRangedInt(pipe, "Enter your birth hour", 1, 24);
         int birthMinute = SafeInput.getRangedInt(pipe, "Enter your birth minute", 1, 59);
